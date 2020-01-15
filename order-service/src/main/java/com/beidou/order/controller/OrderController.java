@@ -24,14 +24,29 @@ public class OrderController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    /**
+     * 使用restTemplate方式 调用微服务
+     * @return
+     */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public Product find() {
 
         List<ServiceInstance> instances = discoveryClient.getInstances("product-service");
 
         ServiceInstance instanceInfo = instances.get(0);
+        String addr = "http://" + instanceInfo.getHost() + ":" + instanceInfo.getPort() + "/product/1";
 
-        return restTemplate.getForObject("http://" + instanceInfo.getHost() + ":" + instanceInfo.getPort() + "/product/1", Product.class);
+        return restTemplate.getForObject(addr, Product.class);
+    }
+
+    /**
+     * ribbon
+     * @return
+     */
+    @RequestMapping(value = "/ribbon", method = RequestMethod.GET)
+    public Product ribbon() {
+
+        return restTemplate.getForObject("http://product-service/product/1", Product.class);
     }
 
 }
