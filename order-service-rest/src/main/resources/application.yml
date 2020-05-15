@@ -1,21 +1,12 @@
 server:
-  port: 9002
+  port: 9003
 spring:
+  application:
+    name: order-service-rest
   cloud:
     sentinel:
       transport:
         dashboard: localhost:8080
-  datasource:
-    url: jdbc:mysql://192.168.1.13:3306/test?characterEncoding=utf-8
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: tbj
-    password: 秘密
-  jpa:
-    database: mysql
-    show-sql: true
-    open-in-view: true
-  application:
-    name: order-service-feign
 eureka:
   client:
     serviceUrl:
@@ -30,20 +21,7 @@ product-service:
   ribbon:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 
-feign:
-  compression:
-    request:
-      enabled: true  #请求数据压缩
-    response:
-      enabled: true #返回数据压缩
-#  hystrix:
-#    enabled: true  #hystrix支持
-  client:
-    config:
-      product-service:
-        loggerLevel: FULL
-  sentinel:
-    enabled: true
+
 #暴露路径
 management:
   endpoints:

@@ -8,7 +8,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EntityScan("com.beidou.entity")
-@EnableEurekaClient
+//@EnableEurekaClient
 public class ProductApplication {
 
     public static void main(String[] args) {

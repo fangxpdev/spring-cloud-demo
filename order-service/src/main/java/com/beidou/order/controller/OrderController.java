@@ -1,12 +1,14 @@
 package com.beidou.order.controller;
 
 import com.beidou.order.api.Product;
+import com.beidou.order.feign.ProductFeignClient;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +25,9 @@ public class OrderController {
 
     @Autowired
     private DiscoveryClient discoveryClient;
+
+    @Autowired
+    private ProductFeignClient productFeignClient;
 
     /**
      * 使用restTemplate方式 调用微服务
@@ -48,5 +53,18 @@ public class OrderController {
 
         return restTemplate.getForObject("http://product-service/product/1", Product.class);
     }
+
+
+    /**
+     * feign
+     * @return
+     */
+    @RequestMapping(value = "/feign/{id}", method = RequestMethod.GET)
+    public Product feign(@PathVariable Long id) {
+        return productFeignClient.findById(id);
+    }
+
+
+
 
 }

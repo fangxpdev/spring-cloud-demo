@@ -4,10 +4,7 @@ import com.beidou.entity.Product;
 import com.beidou.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/product")
@@ -20,7 +17,7 @@ public class ProductController {
     private String port;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Product findById( @PathVariable Long id) {
+    public Product findById(@PathVariable Long id) {
 
         Product product = productService.findById(id);
         product.setProductDesc(product.getProductDesc() + ":" + port);
@@ -29,5 +26,9 @@ public class ProductController {
     }
 
 
-
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String save(@RequestBody Product product) {
+        productService.save(product);
+        return "success";
+    }
 }

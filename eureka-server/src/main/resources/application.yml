@@ -4,13 +4,15 @@ server:
 eureka:
   instance:
     hostname: localhost
-  client:
-    registerWithEureka: false
-    fetchRegistry: false
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
   server:
-    enable-self-preservation: false
+    enable-self-preservation: false #自我保护 开发阶段可以关闭
+  client:
+    registerWithEureka: false #是否将自己注册到注册中心
+  fetchRegistry: false #是否从eureka获取注册信息
+  serviceUrl:
+    defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
 spring:
   application:
